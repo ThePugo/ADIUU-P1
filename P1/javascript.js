@@ -24,6 +24,141 @@ function conexionphp() {
     });
 }
 
+function conexion2() {
+    $.ajax({
+        url: 'conexion.php', // archivo php
+        type: 'GET', // tipo de peticion HTTP
+        success: function (data) {
+            var obj = jQuery.parseJSON(data);
+            var mypccpu1 = obj.mypccpu1;
+            var mypccooler1 = obj.mypccooler1;
+            var mypcgpu1 = obj.mypcgpu1;
+            var mypcmemory1 = obj.mypcmemory1;
+            var mypcmobo1 = obj.mypcmobo1;
+            var mypcpsu1 = obj.mypcpsu1;
+            var mypcstorage11 = obj.mypcstorage11;
+            var mypcstorage21 = obj.mypcstorage21;
+            var mypccase1 = obj.mypccase1;
+            primergraficopc(mypccpu1, mypccooler1, mypcgpu1, mypcmemory1, mypcmobo1, mypcpsu1, mypcstorage11, mypcstorage21, mypccase1);
+        }
+    });
+}
+
+function primergraficopc(mypccpu1, mypccooler1, mypcgpu1, mypcmemory1, mypcmobo1, mypcpsu1, mypcstorage11, mypcstorage21, mypccase1) {
+    var cpu = mypccpu1[0][2].split('(')[0];
+    var cooler = mypccooler1[0][2].split('(')[0];
+    var parts = mypcgpu1[0][2].split("GeForce");
+    var gpu = "GeForce" + parts[1].split("Card")[0] + "Card";
+    var memory = mypcmemory1[0][2].split('(')[0];
+    var mobo = mypcmobo1[0][2].split('(')[0];
+    var psu = mypcpsu1[0][2].split('(')[0];
+    var storage1 = mypcstorage11[0][2].split('(')[0];
+    var storage2 = mypcstorage21[0][2].split('(')[0];
+    var tower = mypccase1[0][2].split('(')[0];
+
+    Highcharts.chart('graficopc1', {
+        chart: {
+            inverted:true,
+            type: 'organization'
+        },
+    
+        title: {
+            text: 'My PC Specifications'
+        },
+
+        
+    
+        series: [
+            {
+                data: [
+                    [cpu,gpu],
+                    [psu, cpu],
+                    [psu, cooler],
+                    [psu, memory],
+                    [psu, storage1],
+                    [psu, storage2],
+                    [psu, gpu],
+                    [psu,tower],
+                    [mobo, cooler],
+                    [mobo, gpu],
+                    [mobo, memory],
+                    [mobo, cpu],
+                    [mobo, psu],
+                    [mobo, storage1],
+                    [mobo, storage2],
+                    [mobo, tower]
+                ],
+                nodes: [
+                    {
+                        id: cpu,
+                        description: 'CPU',
+                        image: mypccpu1[0][3]
+                    },
+                    {
+                        id: memory,
+                        description: 'RAM (4x8)',
+                        image: mypcmemory1[0][3]
+                    },
+                    {
+                        id: mobo,
+                        description: 'Motherboard',
+                        image: mypcmobo1[0][3]
+                    },
+                    {
+                        id: tower,
+                        description: 'Case',
+                        image: mypccase1[0][3]
+    
+                    },
+                    {
+                        id: psu,
+                        description: 'PSU',
+                        image: mypcpsu1[0][3]
+    
+                    },
+                    {
+                        id: cooler,
+                        description: 'Cooler',
+                        image: mypccooler1[0][3]
+    
+                    },
+                    {
+                        id: storage1,
+                        description: 'Storage 1',
+                        image: mypcstorage11[0][3]
+                    },
+                    {
+                        id: gpu,
+                        description: 'GPU',
+                        image: mypcgpu1[0][3]
+                    },
+                    {
+                        id: storage2,
+                        description: 'Storage 2',
+                        image: mypcstorage21[0][3]
+                    }
+                ],
+                colorByPoint: true,
+                color: '#007ad0',
+                dataLabels: {
+                    enabled: true,
+                    color: 'white'
+                },
+                borderColor: 'white',
+                nodeWidth: 65,
+            }
+        ],
+        tooltip: {
+            outside: true
+        },
+        exporting: {
+            allowHTML: true,
+            sourceWidth: 800,
+            sourceHeight: 600
+        },
+    });
+}
+
 //Funcion que dibuja el grafico de la distribución de marcas en el mercado
 function primergrafico(cpusIntel, cpusAMD, gpusNVIDIA, gpusAMD, mobosIntel, mobosAMD) {
     var cpusTotal = parseInt(cpusIntel) + parseInt(cpusAMD);

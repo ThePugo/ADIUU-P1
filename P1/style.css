@@ -7,3 +7,18 @@
 .margin2 {
     margin-top: 40px;
 }
+
+.corner-image {
+    height: 450px; /* Establece la altura fija */
+    object-fit: cover; /* Controla cómo se ajusta la imagen */
+}
+
+#graficopc1 h4 {
+    font-family: "Josefin Slab";
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 0.9;
+    text-decoration: none;
+    text-transform: none;
+}
