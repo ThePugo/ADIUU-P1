@@ -5,6 +5,7 @@ $bd = mysqli_connect("localhost", "root", "", "pcparts"); //conexion con DB
     die("Connection failed: " . mysqli_connect_error());
   }
 
+//consultas para la primera gráfica
 $query = mysqli_query($bd, "SELECT COUNT(*) FROM cpu WHERE brand='Intel'"); //SELECT DE NÚMERO DE CPUS INTEL
 $cpusIntel= mysqli_fetch_all($query, MYSQLI_NUM);
 
@@ -23,15 +24,14 @@ $mobosIntel = mysqli_fetch_all($query, MYSQLI_NUM);
 $query = mysqli_query($bd, "SELECT COUNT(*) FROM motherboard WHERE brand='AMD'"); //SELECT DE NÚMERO DE MOTHERBOARDS AMD
 $mobosAMD = mysqli_fetch_all($query, MYSQLI_NUM);
 
-$query = mysqli_query($bd, "SELECT * FROM psu"); //SELECT DE PSUs
-$psu = mysqli_fetch_all($query, MYSQLI_NUM);
-
+//consultas para la segunda gráfica
 $query = mysqli_query($bd, "SELECT * FROM cpu"); //SELECT DE CPUs
 $cpu= mysqli_fetch_all($query, MYSQLI_NUM);
 
 $query = mysqli_query($bd, "SELECT * FROM gpu"); //SELECT DE GPUs
 $gpu= mysqli_fetch_all($query, MYSQLI_NUM);
 
+//consultas para la tercera gráfica
 $query = mysqli_query($bd, "SELECT socket FROM motherboard WHERE brand='Intel'"); //SELECT DE sockets de Intel de MOBO
 $moboSocketsIntel= mysqli_fetch_all($query, MYSQLI_NUM);
 
@@ -43,6 +43,19 @@ $cpuSocketsIntel= mysqli_fetch_all($query, MYSQLI_NUM);
 
 $query = mysqli_query($bd, "SELECT socket FROM cpu WHERE brand='AMD'"); //SELECT DE sockets de AMD de CPU
 $cpuSocketsAMD= mysqli_fetch_all($query, MYSQLI_NUM);
+
+//consultas para la cuarta gráfica
+$query = mysqli_query($bd, "SELECT * FROM memory");
+$ram = mysqli_fetch_all($query, MYSQLI_NUM);
+
+$query = mysqli_query($bd, "SELECT * FROM storage");
+$storage = mysqli_fetch_all($query, MYSQLI_NUM);
+
+$query = mysqli_query($bd, "SELECT type, size, COUNT(*) as count FROM MEMORY GROUP BY type, size ORDER BY type, size");
+$ramsizecount = mysqli_fetch_all($query, MYSQLI_NUM);
+
+$query = mysqli_query($bd, "SELECT type, space, COUNT(*) as count FROM STORAGE GROUP BY type, space ORDER BY type, space");
+$storagesizecount = mysqli_fetch_all($query, MYSQLI_NUM);
 
 //PARA LAS SPECS DEL PC
 $query = mysqli_query($bd, "SELECT * FROM cpu WHERE name='Intel Core i5-11400F 2.6 GHz 6-Core Processor (BX8070811400F)'");
@@ -79,13 +92,16 @@ $data = [
     "gpusAMD" => $gpusAMD,
     "mobosIntel" => $mobosIntel,
     "mobosAMD" => $mobosAMD,
-    "psus" => $psu,
     "cpus" => $cpu,
     "gpus" => $gpu,
     "mobosSocketIntel" => $moboSocketsIntel,
     "mobosSocketAMD" => $moboSocketsAMD,
     "cpusSockIntel" => $cpuSocketsIntel,
     "cpusSockAMD" => $cpuSocketsAMD,
+    "ram" => $ram,
+    "storage" => $storage,
+    "ramsizecount" => $ramsizecount,
+    "storagesizecount" => $storagesizecount,
     "mypccpu1" => $mypccpu1,
     "mypccooler1" => $mypccooler1,
     "mypcgpu1" => $mypcgpu1,
