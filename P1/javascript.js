@@ -1,3 +1,4 @@
+//Función para conectar con la base de datos y extraer las consultas generadas (para index.html)
 function conexionphp() {
     $.ajax({
         url: 'conexion.php', // archivo php
@@ -19,7 +20,7 @@ function conexionphp() {
             var ram = obj.ram;
             var storage = obj.storage;
             var ramsizecount = obj.ramsizecount;
-            var storagesizecount= obj.storagesizecount;
+            var storagesizecount = obj.storagesizecount;
             primergrafico(cpusIntel, cpusAMD, gpusNVIDIA, gpusAMD, mobosIntel, mobosAMD);
             segundografico(cpus, gpus);
             tercergrafico(cpusSockIntel, cpusSockAMD, mobosSocketIntel, mobosSocketAMD);
@@ -28,6 +29,7 @@ function conexionphp() {
     });
 }
 
+//Función para conectar con la base de datos y extraer las consultas generadas (para specs.html)
 function conexion2() {
     $.ajax({
         url: 'conexion.php', // archivo php
@@ -48,6 +50,7 @@ function conexion2() {
     });
 }
 
+//Función que dibuja el gráfico de las especificaciones del PC
 function primergraficopc(mypccpu1, mypccooler1, mypcgpu1, mypcmemory1, mypcmobo1, mypcpsu1, mypcstorage11, mypcstorage21, mypccase1) {
     var cpu = mypccpu1[0][2].split('(')[0];
     var cooler = mypccooler1[0][2].split('(')[0];
@@ -70,12 +73,9 @@ function primergraficopc(mypccpu1, mypccooler1, mypcgpu1, mypcmemory1, mypcmobo1
             text: 'My PC Specifications'
         },
 
-
-
         series: [
             {
                 data: [
-                    [cpu, gpu],
                     [psu, cpu],
                     [psu, cooler],
                     [psu, memory],
@@ -251,17 +251,6 @@ function segundografico(cpus, gpus) {
 
         title: {
             text: 'All CPU+GPU Combinations’ Power Consumption in Watts'
-        },
-
-
-        accessibility: {
-            screenReaderSection: {
-                beforeChartFormat: '<{headingTagName}>{chartTitle}</{headingTagName}><div>{chartSubtitle}</div><div>{chartLongdesc}</div><div>{xAxisDescription}</div><div>{yAxisDescription}</div>'
-            }
-        },
-
-        tooltip: {
-            valueDecimals: 2
         },
 
         xAxis: {
@@ -592,11 +581,12 @@ function tercergrafico(cpusSockIntel, cpusSockAMD, mobosSockIntel, mobosSockAMD)
     });
 }
 
+//Función que dibuja el gráfico treemap de los tamaños de RAM y almacenamiento
 function cuartografico(ram, storage, ramsizecount, storagesizecount) {
-    const color = ['#ffff00','#ffdf00', '#e5e619', '#b8b814','#ff0000','#e62e1b', '#b81414', '#ec5353'];
+    const color = ['#ffff00', '#ffdf00', '#e5e619', '#b8b814', '#ff0000', '#e62e1b', '#b81414', '#ec5353'];
     var rams = new Set();
     for (var j = 0; j < ram.length; j++) {
-        if (ram[j][5].length==4) {
+        if (ram[j][5].length == 4) {
             rams.add(ram[j][5]);
         }
     }
@@ -604,9 +594,9 @@ function cuartografico(ram, storage, ramsizecount, storagesizecount) {
     var countram = Array(ramtypes.length);
 
     for (var i = 0; i < ramtypes.length; i++) {
-        countram[i]=0;
+        countram[i] = 0;
     }
-    
+
     // Recorrer el array ram y contar las apariciones de cada tipo
     for (var i = 0; i < ram.length; i++) {
         for (var j = 0; j < ramtypes.length; j++) {
@@ -624,7 +614,7 @@ function cuartografico(ram, storage, ramsizecount, storagesizecount) {
     var countstorage = Array(storagetypes.length);
 
     for (var i = 0; i < storagetypes.length; i++) {
-        countstorage[i]=0;
+        countstorage[i] = 0;
     }
 
     // Recorrer el array storage y contar las apariciones de cada tipo
@@ -632,6 +622,52 @@ function cuartografico(ram, storage, ramsizecount, storagesizecount) {
         for (var j = 0; j < storagetypes.length; j++) {
             if (storage[i][5] == storagetypes[j]) {
                 countstorage[j]++;
+            }
+        }
+    }
+
+    // Función para generar datos de treemaps
+    function generateTreemapData(id, name, value, color, parent, level) {
+        return {
+            id: id,
+            name: name,
+            value: value,
+            color: color,
+            parent: parent,
+            level: level
+        };
+    }
+
+    // Datos de RAM y tamaños
+    const ramData = [];
+    ramData.push(generateTreemapData('Memory', 'Memory', ram.length, color[0], '', 1));
+
+    for (let i = 0; i < ramtypes.length; i++) {
+        const typeId = ramtypes[i];
+        ramData.push(generateTreemapData(typeId, typeId, countram[i], color[i + 1], 'Memory', 2));
+
+        for (let j = 0; j < ramsizecount.length; j++) {
+            const sizeId = ramsizecount[j][1];
+            const parentType = ramsizecount[j][0];
+            if (parentType === typeId) {
+                ramData.push(generateTreemapData(sizeId, sizeId + 'GB', parseInt(ramsizecount[j][2]), color[i + 1], typeId, 3));
+            }
+        }
+    }
+
+    // Datos de almacenamiento y tamaños
+    const storageData = [];
+    storageData.push(generateTreemapData('Storage', 'Storage', storage.length, color[4], '', 1));
+
+    for (let i = 0; i < storagetypes.length; i++) {
+        const typeId = storagetypes[i];
+        storageData.push(generateTreemapData(typeId, typeId, countstorage[i], color[i + 5], 'Storage', 2));
+
+        for (let j = 0; j < storagesizecount.length; j++) {
+            const sizeId = storagesizecount[j][1];
+            const parentType = storagesizecount[j][0];
+            if (parentType === typeId) {
+                storageData.push(generateTreemapData(sizeId, sizeId + 'GB', parseInt(storagesizecount[j][2]), color[i + 5], typeId, 3));
             }
         }
     }
@@ -647,121 +683,16 @@ function cuartografico(ram, storage, ramsizecount, storagesizecount) {
         series: [
             {
                 type: 'treemap',
-                layoutAlgorithm: 'stripes',
+                layoutAlgorithm: 'squarified',
                 layoutStartingDirection: 'vertical',
                 allowDrillToNode: true,
                 animationLimit: 1000,
                 dataLabels: {
-                    enabled: false
+                    enabled: true
                 },
                 levelIsConstant: true,
-                levels: [
-                    {
-                        layoutAlgorithm: 'squarified',
-                        layoutStartingDirection: 'vertical',
-                        level: 1,
-                        dataLabels: {
-                            enabled: true,
-                            style: {
-                                textOutline: false
-                            }
-                        },
-                        borderWidth: 3
-                    },
-                    {
-                        level: 2,
-                        dataLabels: {
-                            enabled: true,
-                            style: {
-                                textOutline: false
-                            }
-                        },
-                        borderWidth: 3,
-                        layoutAlgorithm: 'squarified',
-                        layoutStartingDirection: 'horizontal'
-                    },
-                    {
-                        level: 3,
-                        dataLabels: {
-                            enabled: false,
-                            style: {
-                                textOutline: false
-                            }
-                        },
-                        borderWidth: 3,
-                        layoutAlgorithm: 'squarified',
-                        layoutStartingDirection: 'horizontal'
-                    }
-                ],
-                data: [
-                    {
-                        id: 'Memory',
-                        name: 'Memory',
-                        value: ram.length,
-                        color: color[0]
-                    },
-                    {
-                        id: ramtypes[0],
-                        name: ramtypes[0],
-                        value: countram[0],
-                        color: color[1],
-                        parent: 'Memory'
-                    },
-                    {
-                        id: ramtypes[1],
-                        name: ramtypes[1],
-                        value: countram[1],
-                        color: color[2],
-                        parent: 'Memory'
-                    },
-                    {
-                        id: ramtypes[2],
-                        name: ramtypes[2],
-                        value: countram[2],
-                        color: color[3],
-                        parent: 'Memory'
-                    },
-                    {
-                        id: ramsizecount[4][1],
-                        name: ramsizecount[4][1]+'GB',
-                        value: ramsizecount[4][2],
-                        parent: ramtypes[0]
-                    },
-                    {
-                        id: ramsizecount[6][1],
-                        name: ramsizecount[6][1]+'GB',
-                        value: ramsizecount[6][2],
-                        parent: ramtypes[0]
-                    },
-                    {
-                        id: 'Storage',
-                        name: 'Storage',
-                        value: storage.length,
-                        color: color[4]
-                    },
-                    {
-                        id: storagetypes[0],
-                        name: storagetypes[0],
-                        value: countstorage[0],
-                        color: color[5],
-                        parent: 'Storage'
-                    },
-                    {
-                        id: storagetypes[1],
-                        name: storagetypes[1],
-                        value: countstorage[1],
-                        color: color[6],
-                        parent: 'Storage'
-                    },
-                    {
-                        id: storagetypes[2],
-                        name: storagetypes[2],
-                        value: countstorage[2],
-                        color: color[7],
-                        parent: 'Storage'
-                    }                  
-                ]
+                data: [...ramData, ...storageData]
             }
-        ],
+        ]
     });
 }
