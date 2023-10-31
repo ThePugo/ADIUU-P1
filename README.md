@@ -8,7 +8,7 @@ Autores: Sasha Cammarata San Segundo y José Enrique Sánchez Weiss
 2- Ir a localhost/phpmyadmin y crear una base de datos llamada "pcparts"
 
 3-Dos opciones:<br>
-  Opción a- Importar en la base de datos creada el archivo "pcparts.sql" para añadir ya directamente la base de datos con todos los inserts
+  Opción a- Importar en la base de datos creada el archivo "pcparts.sql" para añadir ya directamente la base de datos con todos los inserts<br>
   Opción b- 1- Descargar los archivos .csv desde https://www.kaggle.com/datasets/rohitmit98/pc-parts-by-type/data?select=CPU.csv<br>
             &emsp;&emsp;&emsp;&emsp;&emsp;2- Introducir en la base de datos el código incluído en el archivo "bd.sql" (cambiando la ruta en la que están los archivos .csv guardados para los "LOAD DATA INFILE...")
 
