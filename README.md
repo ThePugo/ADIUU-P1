@@ -1,5 +1,6 @@
 # ADIUU-P1
 Práctica 1 ADIIU
+Autores: Sasha Cammarata San Segundo y José Enrique Sánchez Weiss
 
 # Tutorial
 1- Abrir XAMPP e iniciar Apache y MySQL
@@ -16,5 +17,10 @@ Práctica 1 ADIIU
 5- Buscar en cualquier navegador: https://localhost/P1/ y ya estarías en la página web :)
 
 # Observaciones
+La información se adquiere a través de solicitudes al servidor interno, las cuales son procesadas por el archivo PHP que administra la parte back-end del sistema.
+Se ha empleado la biblioteca Highcharts (disponible en https://www.highcharts.com/) para la creación de gráficos y mapas.
+  Bootstrap (disponible en https://getbootstrap.com/) ha sido utilizado para diseñar la interfaz del usuario.
+  JQuery (disponible en https://jquery.com/) ha sido empleado para agilizar el desarrollo del código JavaScript.
+  
 Los datasets para la base de datos se han extraído del siguiente enlace de Kaggle:<br>
 https://www.kaggle.com/datasets/rohitmit98/pc-parts-by-type/data?select=CPU.csv
