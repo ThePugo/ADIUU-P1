@@ -85,6 +85,16 @@ $mypcstorage21 = mysqli_fetch_all($query, MYSQLI_NUM);
 $query = mysqli_query($bd, "SELECT * FROM tower WHERE name='Cooler Master MasterBox TD500 Mesh w/ Controller ATX Mid Tower Case (MCB-D500D-KGNN-S01)'");
 $mypccase1 = mysqli_fetch_all($query, MYSQLI_NUM);
 
+//PARA EL CHECKER DE COMPATIBILIDADES
+$query = mysqli_query($bd, "SELECT * FROM tower");
+$tower = mysqli_fetch_all($query, MYSQLI_NUM);
+
+$query = mysqli_query($bd, "SELECT * FROM psu");
+$psu = mysqli_fetch_all($query, MYSQLI_NUM);
+
+$query = mysqli_query($bd, "SELECT * FROM motherboard");
+$mobo = mysqli_fetch_all($query, MYSQLI_NUM);
+
 $data = [
     "cpusIntel" => $cpusIntel,
     "cpusAMD" => $cpusAMD,
@@ -110,7 +120,10 @@ $data = [
     "mypcpsu1" => $mypcpsu1,
     "mypcstorage11" => $mypcstorage11,
     "mypcstorage21" => $mypcstorage21,
-    "mypccase1" => $mypccase1
+    "mypccase1" => $mypccase1,
+    "tower" => $tower,
+    "psu" => $psu,
+    "mobo" => $mobo
   ];
 
 echo json_encode($data); //codificar en JSON
