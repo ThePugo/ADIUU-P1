@@ -233,7 +233,7 @@ function segundografico(cpus, gpus) {
     for (var i = 0; i < cpus.length; i++) {
         for (var j = 0; j < gpus.length; j++) {
             //se cogen los nombres de las combinaciones
-            x = cpus[i][2] + " + " + gpus[i][2];
+            x = cpus[i][2] + " + " + gpus[j][2];
             combinaciones.push(
                 //se cogen los valores de las combinaciones
                 parseInt(cpus[i][10]) + parseInt(gpus[j][8])
