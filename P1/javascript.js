@@ -242,7 +242,7 @@ function segundografico(cpus, gpus) {
         }
     }
 
-    console.time('line');
+    console.time('scatter');
     Highcharts.chart('grafico2', {
 
         chart: {
@@ -263,8 +263,11 @@ function segundografico(cpus, gpus) {
             }
         },
         series: [{
+            type: 'scatter',
             data: combinaciones,
-            lineWidth: 0.5,
+            marker: {
+                radius: 1
+            },
             showInLegend: false
         }],
         tooltip: {
@@ -280,7 +283,7 @@ function segundografico(cpus, gpus) {
         }
 
     });
-    console.timeEnd('line');
+    console.timeEnd('scatter');
 }
 
 //Función que dibuja el gráfico de los dos pie-donut charts
