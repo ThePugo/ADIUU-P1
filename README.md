@@ -1,4 +1,4 @@
-# ADIUU-P1
+# ADIIU-P1
 Práctica 1 ADIIU<br>
 Autores: Sasha Cammarata San Segundo y José Enrique Sánchez Weiss
 
