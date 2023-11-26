@@ -24,5 +24,5 @@ Se ha empleado la biblioteca Highcharts (disponible en https://www.highcharts.co
   
 Los datasets para la base de datos se han extraído del siguiente enlace de Kaggle:<br>
 https://www.kaggle.com/datasets/rohitmit98/pc-parts-by-type/data?select=CPU.csv
-Video explicativo de la práctica:<br>
+<br>Video explicativo de la práctica:<br>
 https://youtu.be/32k5TDupUdA
