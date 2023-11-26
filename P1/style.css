@@ -1,0 +1,58 @@
+.margin1 {
+    margin-top: 20px;
+    margin-bottom: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+.margin2 {
+    margin-top: 40px;
+}
+
+.corner-image {
+    height: 450px; /* Establece la altura fija */
+    object-fit: cover; /* Controla cómo se ajusta la imagen */
+}
+
+#imageCase,
+#imageMobo,
+#imagePsu {
+    width: 200px; /* Establece el ancho fijo en píxeles */
+    height: 150px; /* Establece la altura fija en píxeles */
+}
+
+.typeahead { 
+    width: 100%; 
+}
+
+#graficopc1 h4 {
+    font-family: "Josefin Slab";
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 0.9;
+    text-decoration: none;
+    text-transform: none;
+}
+
+/*Estilos generales */
+
+/*Estilo para las filas de graficas */
+.row-blue-background {
+    background-color: #0f0f3d; 
+    color: white; 
+    padding: 20px; 
+}
+/*Estilo para el background de la página*/
+.body-blue-background {
+    background-color: #0151a6;
+    color: white;
+}
+/*Estilo para el botón de specs.html*/
+#showDataButton {
+    background-color: #052648; 
+    color: white; 
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
